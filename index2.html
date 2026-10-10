@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Little Love Gift ❤️</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #050505;
+  color: #ffc1d5;
+  font-family: Arial, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+}
+
+.screen {
+  width: 100%;
+  max-width: 600px;
+}
+
+h1 {
+  font-size: clamp(26px, 6vw, 42px);
+  color: #ff9fca;
+}
+
+p {
+  line-height: 1.8;
+  color: #f6dce7;
+}
+
+button {
+  background: #ff9fca;
+  color: #190811;
+  border: none;
+  border-radius: 30px;
+  padding: 14px 22px;
+  margin: 12px 6px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover { background: #ffd1e4; }
+
+#heart {
+  width: min(90vw, 480px);
+  height: min(90vw, 480px);
+  display: block;
+  margin: 10px auto;
+}
+
+.hidden { display: none; }
+
+.tag {
+  color: #d78cae;
+  letter-spacing: 2px;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+</style>
+</head>
+
+<body>
+
+<!-- SCREEN 1 -->
+<div class="screen" id="intro">
+  <div class="tag">a little something for you</div>
+  <h1>A tiny program,<br>made with love. ❤️</h1>
+  <p>Someone missed you a little extra today.</p>
+  <button onclick="showHeart()">run the love.exe ♥</button>
+</div>
+
+<!-- SCREEN 2 -->
+<div class="screen hidden" id="heartScreen">
+  <div class="tag">compiled with love ♡</div>
+  <h1>For my favourite human</h1>
+  <canvas id="heart" width="480" height="480"></canvas>
+  <p>Every little “I love you” is for you. 💗</p>
+  <button onclick="showMessage()">open your little surprise ♥</button>
+</div>
+
+<!-- SCREEN 3 -->
+<div class="screen hidden" id="ending">
+  <div class="tag">program executed successfully ♡</div>
+  <h1>I missed you today. 🥹</h1>
+  <p>
+    I know you were busy today, and that's okay.
+    I just wished I could've stolen a little time with you.
+  </p>
+  <p>
+    So I made you this tiny thing, in a language you understand
+    way better than I do. ❤️
+  </p>
+  <p>
+    I'm not a developer, but if there's one thing I'm certain of,
+    it's you being someone I want to keep choosing.
+  </p>
+  <p>
+    No matter how busy our days get, there's always a little
+    part of mine that belongs to you.
+  </p>
+  <h2>I love you, my favourite human. ❤️</h2>
+  <button onclick="hug()">click for a virtual hug? 🫂</button>
+  <p id="hugMessage" class="hidden">
+    HUG DELIVERED! 🫂💗<br>
+    The longest squeeze ever. No refunds.<br>
+    I love youuuuu!
+  </p>
+</div>
+
+<script>
+function showHeart() {
+  document.getElementById("intro").classList.add("hidden");
+  document.getElementById("heartScreen").classList.remove("hidden");
+  drawHeart();
+}
+
+function showMessage() {
+  document.getElementById("heartScreen").classList.add("hidden");
+  document.getElementById("ending").classList.remove("hidden");
+}
+
+function hug() {
+  document.getElementById("hugMessage").classList.remove("hidden");
+}
+
+
+
+function drawHeart() {
+  const canvas = document.getElementById("heart");
+  const ctx = canvas.getContext("2d");
+
+  const totalLayers = [11, 12, 13, 14, 15, 16];
+  let layer = 0;
+  let i = 0;
+
+  ctx.clearRect(0, 0, 480, 480);
+  ctx.fillStyle = "#ffb6c1";
+  ctx.font = "bold 8px Arial";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  function drawNextBatch() {
+    // Draw a few letters at a time to create the animation
+    for (let count = 0; count < 1; count++) {
+      if (layer >= totalLayers.length) return;
+
+      const scale = totalLayers[layer];
+      const angle = i * (Math.PI * 2) / 120;
+
+      const x = 16 * Math.pow(Math.sin(angle), 3) * scale;
+      const y = (
+        13 * Math.cos(angle)
+        - 5 * Math.cos(2 * angle)
+        - 2 * Math.cos(3 * angle)
+        - Math.cos(4 * angle)
+      ) * scale;
+
+      ctx.fillText("I love you", 240 + x, 240 - y);
+
+      i++;
+
+      if (i >= 120) {
+        i = 0;
+        layer++;
+      }
+    }
+
+    if (layer < totalLayers.length) {
+      setTimeout(() => requestAnimationFrame(drawNextBatch), 60);
+    }
+  }
+
+  drawNextBatch();
+}
+
+    
+</script>
+
+</body>
+</html>
